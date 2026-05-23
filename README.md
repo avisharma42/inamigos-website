@@ -62,6 +62,4 @@ python assets/check_images.py
 
 This project is licensed under the MIT License. See [LICENSE](./LICENSE) for details.
 
----
 
-If you'd like any changes (more details, screenshots, or a license added), tell me and I will update the README.

@@ -1,0 +1,2528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>InAmigos Foundation — Uniting Minds for Change</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fraunces:ital,wght@0,300;0,700;0,900;1,700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --g:#16a34a;--g2:#22c55e;--g3:#4ade80;
+  --o:#f97316;--o2:#fb923c;
+  --dark:#0a0a0a;--dark2:#111827;--dark3:#1f2937;
+  --cream:#fefce8;--off:#f8fafc;
+  --text:#0f172a;--muted:#64748b;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Inter',sans-serif;background:#fff;color:var(--text);overflow-x:hidden}
+
+
+
+/* ═══ LOADER ═══ */
+#loader{position:fixed;inset:0;background:var(--dark);z-index:99997;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+.loader-logo{width:90px;height:90px;object-fit:contain;animation:loaderPulse 1.2s ease infinite}
+@keyframes loaderPulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.1);opacity:1}}
+.loader-bar{width:200px;height:2px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+.loader-fill{height:100%;background:linear-gradient(90deg,var(--g),var(--o));border-radius:4px;animation:loaderFill 1.8s ease forwards}
+@keyframes loaderFill{from{width:0}to{width:100%}}
+.loader-text{color:rgba(255,255,255,.4);font-size:.78rem;letter-spacing:3px;text-transform:uppercase}
+
+/* ═══ PARTICLES ═══ */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.pt{position:absolute;border-radius:50%;animation:ptFloat linear infinite;pointer-events:none}
+@keyframes ptFloat{0%{transform:translateY(110vh) rotate(0deg);opacity:0}15%{opacity:1}85%{opacity:.5}100%{transform:translateY(-10vh) rotate(720deg);opacity:0}}
+
+/* ═══ BLOBS ═══ */
+.blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.15;pointer-events:none;animation:blobMove ease-in-out infinite}
+@keyframes blobMove{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.1)}66%{transform:translate(-20px,30px) scale(.9)}}
+
+/* ═══ WAVE SVG ═══ */
+.wave-sep{width:100%;overflow:hidden;line-height:0;display:block}
+.wave-sep svg{display:block;width:100%}
+
+/* ═══ NAV ═══ */
+nav{position:fixed;top:0;width:100%;z-index:1000;padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;transition:all .4s}
+nav.scrolled{background:rgba(255,255,255,.9);backdrop-filter:blur(20px);box-shadow:0 1px 40px rgba(0,0,0,.08);padding:.7rem 5%}
+.nav-logo{display:flex;align-items:center;gap:.7rem}
+.nav-logo img{height:44px;width:auto;object-fit:contain;transition:transform .3s}
+.nav-logo:hover img{transform:rotate(-5deg) scale(1.05)}
+.nav-tagline{font-size:.68rem;color:rgba(255,255,255,.6);font-weight:500;line-height:1.3;transition:color .4s;max-width:100px}
+nav.scrolled .nav-tagline{color:var(--muted)}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{font-size:.85rem;font-weight:500;text-decoration:none;color:rgba(255,255,255,.85);transition:all .3s;position:relative;padding-bottom:2px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;background:var(--g2);transition:width .3s}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after{width:100%}
+nav.scrolled .nav-links a{color:var(--text)}
+nav.scrolled .nav-links a:hover{color:var(--g)}
+.nav-btn{background:var(--g);color:#fff;padding:.5rem 1.4rem;border-radius:50px;font-size:.83rem;font-weight:700;text-decoration:none;transition:all .3s;border:none}
+.nav-btn:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(22,163,74,.35)}
+
+/* ═══ HERO ═══ */
+#hero{height:100vh;min-height:640px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform-origin:center;will-change:transform}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.4) 60%,rgba(10,20,10,.65) 100%)}
+.hero-content{position:relative;z-index:3;text-align:center;max-width:900px;padding:0 2rem}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);color:#fff;padding:.45rem 1.2rem;border-radius:50px;font-size:.75rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1.5rem;opacity:0}
+.hero-dot{width:8px;height:8px;background:var(--g2);border-radius:50%;animation:heroDot 1.5s ease infinite}
+@keyframes heroDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)}}
+.hero-h{font-family:'Fraunces',serif;font-size:clamp(3rem,7vw,5.5rem);font-weight:900;color:#fff;line-height:1.0;letter-spacing:-2px;margin-bottom:1.5rem;opacity:0}
+.hero-h em{color:var(--g3);font-style:italic}
+.hero-sub{color:rgba(255,255,255,.75);font-size:1.1rem;line-height:1.8;max-width:620px;margin:0 auto 2.5rem;opacity:0}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;opacity:0}
+.btn-g{background:var(--g);color:#fff;padding:.9rem 2.2rem;border-radius:50px;font-weight:700;text-decoration:none;font-size:.92rem;border:none;transition:all .3s;position:relative;overflow:hidden}
+.btn-g::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(255,255,255,.25),transparent);transform:scale(0);transition:transform .4s}
+.btn-g:hover::before{transform:scale(2.5)}
+.btn-g:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(22,163,74,.4)}
+.btn-g:hover .btn-arrow{transform:translateX(4px)}
+.btn-outline{background:transparent;color:#fff;padding:.9rem 2.2rem;border-radius:50px;font-weight:600;text-decoration:none;font-size:.92rem;border:2px solid rgba(255,255,255,.5);transition:all .3s}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.1);transform:translateY(-3px)}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;z-index:3;opacity:0}
+.scroll-txt{font-size:.68rem;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase}
+.scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,rgba(255,255,255,.6),transparent);animation:scrollAnim 2s ease infinite}
+@keyframes scrollAnim{0%,100%{transform:scaleY(1);opacity:.4}50%{transform:scaleY(1.2);opacity:1}}
+.hero-stats{position:absolute;bottom:5rem;left:5%;z-index:3;display:flex;gap:2rem;opacity:0}
+.hstat{text-align:left}
+.hstat-n{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:900;color:var(--g3)}
+.hstat-l{font-size:.7rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px}
+
+/* ═══ ABOUT ═══ */
+#about{padding:7rem 5%;background:#fff;position:relative;overflow:hidden}
+.about-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.about-left{position:relative}
+.about-img-main{width:100%;height:500px;object-fit:cover;border-radius:24px;display:block}
+.about-img-float{position:absolute;bottom:-2rem;right:-2rem;width:200px;height:200px;object-fit:cover;border-radius:20px;border:5px solid #fff;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.about-year-badge{position:absolute;top:2rem;left:-1.5rem;background:var(--g);color:#fff;border-radius:16px;padding:1rem 1.2rem;text-align:center;box-shadow:0 8px 30px rgba(22,163,74,.4)}
+.ayb-n{font-family:'Fraunces',serif;font-size:2rem;font-weight:900;line-height:1}
+.ayb-l{font-size:.68rem;text-transform:uppercase;letter-spacing:.5px;opacity:.85}
+.about-right .eyebrow{font-size:.72rem;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:2px;margin-bottom:1rem}
+.about-right h2{font-family:'Fraunces',serif;font-size:clamp(2rem,3.5vw,2.8rem);font-weight:900;line-height:1.15;margin-bottom:1.2rem;letter-spacing:-1px}
+.about-right p{color:var(--muted);font-size:.95rem;line-height:1.85;margin-bottom:1rem}
+.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-top:1.5rem}
+.cert{background:var(--off);border:1.5px solid rgba(22,163,74,.2);border-radius:10px;padding:.6rem .8rem;text-align:center;font-size:.73rem;font-weight:600;color:var(--g);transition:all .3s}
+.cert:hover{background:var(--g);color:#fff;transform:translateY(-2px)}
+.mission-card{margin-top:2rem;background:linear-gradient(135deg,var(--dark) 0%,var(--dark3) 100%);border-radius:16px;padding:1.5rem;position:relative;overflow:hidden}
+.mission-card::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(22,163,74,.15)}
+.mission-card p{color:rgba(255,255,255,.75);font-size:.9rem;line-height:1.7;font-style:italic}
+.mission-card strong{color:var(--g3)}
+
+/* ═══ SECTION HEADER SHARED ═══ */
+.sec-head{text-align:center;max-width:680px;margin:0 auto 4rem}
+.sec-tag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.25);color:var(--g);padding:.3rem 1rem;border-radius:50px;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.8rem}
+.sec-tag span{width:6px;height:6px;background:var(--g);border-radius:50%}
+.sec-h{font-family:'Fraunces',serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;line-height:1.15;letter-spacing:-1px}
+.sec-h em{color:var(--g);font-style:normal}
+.sec-sub{color:var(--muted);font-size:.95rem;line-height:1.8;margin-top:.8rem}
+
+/* ═══ PROJECTS ═══ */
+#projects{padding:7rem 0;background:var(--off);position:relative}
+.projects-inner{max-width:1300px;margin:0 auto;padding:0 5%}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:2rem}
+.pcard{background:#fff;border-radius:24px;overflow:hidden;position:relative;transition:all .4s;transform-style:preserve-3d}
+.pcard:hover{box-shadow:0 30px 80px rgba(0,0,0,.15)}
+.pcard-img-wrap{height:220px;overflow:hidden;position:relative}
+.pcard-img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.46,.45,.94)}
+.pcard:hover .pcard-img{transform:scale(1.08)}
+.pcard-glow{position:absolute;inset:0;opacity:0;transition:opacity .4s}
+.pcard:hover .pcard-glow{opacity:1}
+.pcard-num{position:absolute;top:1rem;left:1rem;width:36px;height:36px;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:#fff;border:1.5px solid rgba(255,255,255,.3)}
+.pcard-body{padding:1.6rem}
+.pcard-cat{font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.5rem}
+.pcard-title{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;line-height:1.3;margin-bottom:.6rem;letter-spacing:-.3px}
+.pcard-desc{color:var(--muted);font-size:.85rem;line-height:1.7;margin-bottom:1rem}
+.pcard-impacts{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1.2rem}
+.pcard-impact{display:flex;align-items:flex-start;gap:.5rem;font-size:.82rem}
+.pcard-impact::before{content:'→';color:var(--g);font-weight:700;flex-shrink:0}
+.pcard-foot{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid rgba(0,0,0,.06)}
+.pcard-stat{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:900;color:var(--g)}
+.pcard-lbl{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.pcard-cta{background:var(--dark);color:#fff;padding:.45rem 1.1rem;border-radius:50px;font-size:.78rem;font-weight:600;text-decoration:none;transition:all .3s}
+.pcard-cta:hover{background:var(--g);transform:scale(1.05)}
+
+/* project color themes */
+.pc-seva .pcard-cat{color:#2563eb}.pc-seva .pcard-glow{background:linear-gradient(to top,rgba(37,99,235,.12),transparent)}
+.pc-bachpan .pcard-cat{color:#7c3aed}.pc-bachpan .pcard-glow{background:linear-gradient(to top,rgba(124,58,237,.12),transparent)}
+.pc-jeev .pcard-cat{color:var(--g)}.pc-jeev .pcard-glow{background:linear-gradient(to top,rgba(22,163,74,.12),transparent)}
+.pc-udaan .pcard-cat{color:#dc2626}.pc-udaan .pcard-glow{background:linear-gradient(to top,rgba(220,38,38,.12),transparent)}
+.pc-prakriti .pcard-cat{color:#16a34a}.pc-prakriti .pcard-glow{background:linear-gradient(to top,rgba(16,185,129,.12),transparent)}
+.pc-vikas .pcard-cat{color:var(--o)}.pc-vikas .pcard-glow{background:linear-gradient(to top,rgba(249,115,22,.12),transparent)}
+
+/* ═══ CAMPAIGNS SECTION ═══ */
+.campaigns-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.campaign-card {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid rgba(0,0,0,0.06);
+  padding: 1.75rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.campaign-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  border-color: rgba(22, 163, 74, 0.2);
+}
+.campaign-tag-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+.campaign-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.nutrition-badge { background: rgba(249, 115, 22, 0.08); color: var(--o); }
+.education-badge { background: rgba(37, 99, 235, 0.08); color: #2563eb; }
+.environment-badge { background: rgba(34, 197, 94, 0.08); color: var(--g); }
+.animal-badge { background: rgba(168, 85, 247, 0.08); color: #a855f7; }
+
+.campaign-percentage {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.campaign-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+  line-height: 1.3;
+}
+.campaign-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+.campaign-progress-container {
+  width: 100%;
+  height: 6px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.campaign-progress-bar {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 1s ease-in-out;
+}
+.campaign-stats-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.campaign-stat-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.campaign-stat-val {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.campaign-stat-lbl {
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.campaign-btn {
+  width: 100%;
+  background: var(--dark);
+  color: #fff;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.campaign-btn:hover {
+  background: var(--g);
+  box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25);
+  transform: translateY(-1px);
+}
+
+/* ═══ STATS ═══ */
+#stats{padding:6rem 5%;background:var(--dark);position:relative;overflow:hidden}
+#stats .blob{width:400px;height:400px;background:var(--g)}
+.stats-inner{max-width:1200px;margin:0 auto}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
+.stat-card{position:relative;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:2.2rem 1.5rem;text-align:center;overflow:hidden;transition:all .4s}
+.stat-card::before{content:'';position:absolute;inset:-1px;border-radius:20px;background:linear-gradient(135deg,rgba(22,163,74,.3),transparent,rgba(249,115,22,.1));opacity:0;transition:opacity .4s}
+.stat-card:hover::before{opacity:1}
+.stat-card:hover{transform:translateY(-6px);background:rgba(255,255,255,.06)}
+.stat-icon{font-size:2rem;margin-bottom:.8rem;display:block;animation:floatIcon 3s ease-in-out infinite}
+@keyframes floatIcon{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.stat-num{font-family:'Fraunces',serif;font-size:3rem;font-weight:900;color:var(--g3);line-height:1;display:block;margin-bottom:.3rem}
+.stat-lbl{font-size:.78rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px}
+.stat-ring{position:absolute;bottom:-20px;right:-20px;width:80px;height:80px;border-radius:50%;border:2px solid rgba(22,163,74,.15)}
+
+/* ═══ GALLERY ═══ */
+#gallery{padding:7rem 0;background:#fff;overflow:hidden}
+.gal-inner{max-width:1300px;margin:0 auto;padding:0 5%}
+.gal-masonry{columns:3;gap:1.2rem;column-fill:balance}
+@media(max-width:900px){.gal-masonry{columns:2}}
+@media(max-width:600px){.gal-masonry{columns:1}}
+.gal-item{break-inside:avoid;margin-bottom:1.2rem;border-radius:16px;overflow:hidden;position:relative}
+.gal-item img{width:100%;display:block;transition:transform .5s cubic-bezier(.25,.46,.45,.94)}
+.gal-item:hover img{transform:scale(1.07)}
+.gal-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%);opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:1.2rem}
+.gal-item:hover .gal-overlay{opacity:1}
+.gal-label{color:#fff;font-size:.83rem;font-weight:600}
+
+/* ═══ VOLUNTEER/CTA ═══ */
+#volunteer{padding:7rem 5%;background:linear-gradient(135deg,var(--dark) 0%,#0a1a0a 50%,var(--dark2) 100%);position:relative;overflow:hidden;text-align:center}
+.vol-inner{max-width:780px;margin:0 auto;position:relative;z-index:2}
+.vol-inner .sec-h{color:#fff}
+.vol-inner .sec-sub{color:rgba(255,255,255,.6)}
+.vol-cards-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.vol-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:1.8rem 1.2rem;text-align:center;transition:all .4s}
+.vol-card:hover{background:rgba(22,163,74,.12);border-color:rgba(22,163,74,.4);transform:translateY(-6px)}
+.vol-card-icon{font-size:2rem;margin-bottom:.8rem}
+.vol-card-label{color:#fff;font-weight:700;font-size:.95rem;margin-bottom:.3rem}
+.vol-card-sub{color:rgba(255,255,255,.4);font-size:.8rem}
+
+/* ═══ FAQ ═══ */
+#faq{padding:7rem 5%;background:var(--off)}
+.faq-inner{max-width:800px;margin:0 auto}
+.faq-item{background:#fff;border-radius:16px;margin-bottom:1rem;overflow:hidden;border:1px solid rgba(0,0,0,.06);transition:all .3s}
+.faq-item.open{box-shadow:0 4px 30px rgba(22,163,74,.12);border-color:rgba(22,163,74,.3)}
+.faq-q{padding:1.4rem 1.6rem;font-weight:600;font-size:.95rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;user-select:none}
+.faq-arrow{width:28px;height:28px;border-radius:50%;background:var(--off);display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:all .35s;flex-shrink:0}
+.faq-item.open .faq-arrow{background:var(--g);color:#fff;transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+.faq-a-inner{padding:0 1.6rem;color:var(--muted);font-size:.88rem;line-height:1.8}
+.faq-item.open .faq-a{max-height:300px}
+.faq-item.open .faq-a-inner{padding-bottom:1.4rem}
+
+/* ═══ CONTACT FORM ═══ */
+#contact{padding:7rem 5%;background:#fff}
+.contact-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:start}
+.contact-left h2{font-family:'Fraunces',serif;font-size:2.5rem;font-weight:900;letter-spacing:-1px;margin-bottom:1rem}
+.contact-left p{color:var(--muted);font-size:.95rem;line-height:1.8;margin-bottom:2rem}
+.cinfo-item{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.5rem}
+.cinfo-dot{width:42px;height:42px;border-radius:12px;background:rgba(22,163,74,.08);border:1.5px solid rgba(22,163,74,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.cinfo-label{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+.cinfo-val{font-size:.9rem;color:var(--text);line-height:1.5}
+.socials-row{display:flex;gap:.7rem;margin-top:2rem}
+.soc{padding:.5rem 1.2rem;border-radius:50px;border:1.5px solid rgba(0,0,0,.1);font-size:.8rem;font-weight:600;text-decoration:none;color:var(--text);transition:all .3s}
+.soc:hover{background:var(--g);color:#fff;border-color:var(--g);transform:translateY(-2px)}
+.form-wrap{background:var(--off);border-radius:24px;padding:2.5rem;border:1px solid rgba(0,0,0,.06)}
+.form-wrap h3{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;margin-bottom:1.8rem}
+.fg{position:relative;margin-bottom:1.3rem}
+.fg label{display:block;font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:.45rem;transition:color .3s}
+.fg:focus-within label{color:var(--g)}
+.fg input,.fg select,.fg textarea{width:100%;padding:.85rem 1.1rem;border:1.5px solid rgba(0,0,0,.1);border-radius:12px;font-family:'Inter',sans-serif;font-size:.9rem;color:var(--text);background:#fff;outline:none;transition:all .3s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(22,163,74,.1)}
+.fg textarea{resize:vertical;min-height:110px}
+.form-submit{width:100%;background:var(--dark);color:#fff;padding:1rem;border-radius:12px;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:700;border:none;transition:all .35s;position:relative;overflow:hidden;margin-top:.3rem}
+.form-submit::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--g),var(--g2));transform:translateX(-105%);transition:transform .4s}
+.form-submit:hover{color:#fff}
+.form-submit:hover::after{transform:translateX(0)}
+.form-submit span{position:relative;z-index:1}
+
+/* ═══ FOOTER ═══ */
+footer{background:var(--dark);color:rgba(255,255,255,.45)}
+.footer-main{max-width:1200px;margin:0 auto;padding:4rem 5% 2rem;display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:3rem}
+.footer-brand p{font-size:.85rem;line-height:1.8;color:rgba(255,255,255,.38);margin-top:.8rem;max-width:280px}
+.footer-logo{height:50px;object-fit:contain}
+.f-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.2rem}
+.f-tag{background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.25);color:var(--g3);font-size:.65rem;font-weight:600;padding:.2rem .55rem;border-radius:50px}
+.f-head{font-size:.78rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.5px;margin-bottom:1.2rem}
+.f-links{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.f-links a{color:rgba(255,255,255,.38);text-decoration:none;font-size:.85rem;transition:color .25s}
+.f-links a:hover{color:var(--g3)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding:1.5rem 5%;text-align:center;font-size:.75rem;max-width:1200px;margin:0 auto}
+.footer-bottom strong{color:var(--g3)}
+.hashtag-line{margin-top:.4rem;font-size:.68rem;color:rgba(255,255,255,.2)}
+
+/* ═══ REVEAL ═══ */
+[data-reveal]{opacity:0;will-change:transform,opacity}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .about-wrap,.contact-inner{grid-template-columns:1fr;gap:3rem}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .vol-cards-row{grid-template-columns:1fr 1fr}
+  .footer-main{grid-template-columns:1fr 1fr;gap:2rem}
+  .nav-links{display:none}
+  .hero-stats{display:none}
+  .about-img-float{display:none}
+}
+
+/* ═══ PROJECT DETAIL MODAL (LIGHT THEME) ═══ */
+.project-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(240, 244, 241, 0.75);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.project-modal.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.project-modal-wrapper {
+  width: 100%;
+  max-width: 960px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1.5px solid rgba(22, 163, 74, 0.15);
+  box-shadow: 0 30px 80px rgba(0, 50, 15, 0.08);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: #1a1a1a;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(22, 163, 74, 0.25) transparent;
+}
+
+.project-modal-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+.project-modal-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(22, 163, 74, 0.25);
+  border-radius: 3px;
+}
+
+.project-modal-left {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 320px;
+  min-height: 320px;
+  background: #f4f6f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-modal-bg-blur {
+  position: absolute;
+  inset: -20px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(25px) brightness(1.15) opacity(0.5);
+  z-index: 1;
+}
+
+.project-modal-img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;
+}
+
+.project-modal-left-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.1) 60%, transparent 100%);
+  z-index: 1;
+}
+
+.project-modal-left-content {
+  position: absolute;
+  bottom: 2rem;
+  left: 2.5rem;
+  right: 2.5rem;
+  z-index: 3;
+}
+
+.project-modal-theme-badge {
+  display: inline-flex;
+  padding: 0.4rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 0rem;
+  background: rgba(22, 163, 74, 0.08);
+  border: 1px solid rgba(22, 163, 74, 0.25);
+  color: #15803d;
+}
+
+.project-modal-right {
+  padding: 3rem 2.5rem;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3rem;
+}
+
+.project-modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  z-index: 10;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(8px);
+}
+
+.project-modal-close:hover {
+  background: #16a34a;
+  color: #fff;
+  border-color: #16a34a;
+  transform: rotate(90deg) scale(1.05);
+}
+
+.project-modal-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: #111827;
+}
+
+.project-modal-desc {
+  color: #4b5563;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.project-modal-section-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #4b5563;
+  margin-bottom: 0.8rem;
+}
+
+.project-modal-impacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  list-style: none;
+}
+
+.project-modal-impact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.92rem;
+  color: #374151;
+}
+
+.project-modal-impact-item::before {
+  content: '✓';
+  color: #16a34a;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.project-modal-social-card {
+  padding: 1.4rem;
+  border-radius: 16px;
+  background: rgba(22, 163, 74, 0.04);
+  border: 1px solid rgba(22, 163, 74, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.project-modal-social-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: #16a34a;
+}
+
+.project-modal-social-text {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #1f2937;
+  font-style: italic;
+}
+
+@media (max-width: 900px) {
+  .project-modal-wrapper {
+    max-height: 85vh;
+  }
+  .project-modal-left {
+    min-height: 180px;
+    height: 180px;
+  }
+  .project-modal-left-content {
+    bottom: 1rem;
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+  .project-modal-right {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.5rem;
+    gap: 2rem;
+  }
+}
+
+/* ═══ WIZARD MODAL ═══ */
+.wizard-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000;
+  visibility: hidden;
+  opacity: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.wizard-modal.active {
+  visibility: visible;
+  opacity: 1;
+}
+.wizard-modal-wrapper {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(22, 163, 74, 0.2);
+  border-radius: 24px;
+  width: min(650px, 92vw);
+  max-height: 90vh;
+  padding: 2.5rem;
+  box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(22, 163, 74, 0.05);
+  position: relative;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transform: scale(0.9) translateY(30px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.wizard-modal.active .wizard-modal-wrapper {
+  transform: scale(1) translateY(0);
+}
+.wizard-modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 1.4rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+}
+.wizard-modal-close:hover {
+  background: var(--g);
+  color: #ffffff;
+  border-color: var(--g);
+  transform: rotate(90deg) scale(1.05);
+}
+
+/* Wizard Progress Stepper */
+.wizard-progress {
+  position: relative;
+  margin-bottom: 3.5rem;
+  padding: 0 16px;
+}
+.progress-bar-bg {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  right: 16px;
+  transform: translateY(-50%);
+  height: 4px;
+  background: rgba(22, 163, 74, 0.1);
+  border-radius: 99px;
+  z-index: 1;
+}
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--g), var(--g2));
+  border-radius: 99px;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+.step-node {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid rgba(22, 163, 74, 0.15);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+.step-node.active {
+  border-color: var(--g);
+  background: var(--g);
+  color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+}
+.step-node.completed {
+  border-color: var(--g);
+  background: var(--g);
+  color: #ffffff;
+}
+.step-label {
+  position: absolute;
+  top: 38px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 1px;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+.step-node.active .step-label,
+.step-node.completed .step-label {
+  color: var(--g);
+}
+
+/* Steps Pane Container */
+.wizard-steps-container {
+  min-height: 330px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.wizard-step-pane {
+  display: none;
+  flex-direction: column;
+  gap: 0.8rem;
+  animation: wizStepFadeIn 0.4s ease forwards;
+}
+.wizard-step-pane.active {
+  display: flex;
+}
+@keyframes wizStepFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.wizard-step-pane h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.65rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.5px;
+}
+.step-intro {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+
+/* Step 1: Role Grid */
+.role-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-top: 0.5rem;
+}
+.role-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 2.2rem 1.5rem;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+}
+.role-card:hover {
+  border-color: rgba(22, 163, 74, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(22, 163, 74, 0.06);
+}
+.role-card.selected {
+  border-color: var(--g);
+  background: rgba(22, 163, 74, 0.02);
+  box-shadow: 0 12px 30px rgba(22, 163, 74, 0.1);
+  transform: translateY(-2px);
+}
+.role-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(22, 163, 74, 0.05);
+  color: var(--g);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+.role-card.selected .role-icon {
+  background: var(--g);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+.role-card h4 {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.role-card p {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Step 2: Interests Grid */
+.interests-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.interest-card {
+  position: relative;
+  display: block;
+}
+.interest-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.interest-check-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.2rem 1.4rem;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100%;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.01);
+}
+.interest-card:hover .interest-check-content {
+  border-color: rgba(22, 163, 74, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(22, 163, 74, 0.06);
+}
+.interest-input:checked + .interest-check-content {
+  border-color: var(--g);
+  background: rgba(22, 163, 74, 0.02);
+  box-shadow: 0 10px 24px rgba(22, 163, 74, 0.08);
+}
+.interest-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(22, 163, 74, 0.05);
+  color: var(--g);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+.interest-icon svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+.interest-card:hover .interest-icon {
+  background: var(--g);
+  color: #ffffff;
+}
+.interest-input:checked + .interest-check-content .interest-icon {
+  background: var(--g);
+  color: #ffffff;
+}
+.interest-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+.interest-desc {
+  font-size: 0.76rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* Step 3: Impact Calculator */
+.impact-calculator {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+.slider-container {
+  width: 100%;
+  margin: 0.8rem 0;
+}
+.impact-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: rgba(22, 163, 74, 0.1);
+  border-radius: 99px;
+  outline: none;
+  transition: background 0.3s;
+}
+.impact-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--g);
+  border: 3.5px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
+}
+.impact-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: var(--g2);
+}
+.slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 700;
+  margin-top: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.impact-display-card {
+  background: #ffffff;
+  border: 1px solid rgba(22, 163, 74, 0.15);
+  border-radius: 18px;
+  padding: 1.4rem;
+  display: flex;
+  gap: 1.4rem;
+  align-items: center;
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.03);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.impact-visual-icon {
+  background: rgba(22, 163, 74, 0.05);
+  color: var(--g);
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, background-color 0.3s, color 0.3s;
+}
+.impact-visual-icon svg {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+.impact-display-card:hover .impact-visual-icon {
+  background: var(--g);
+  color: #ffffff;
+  transform: scale(1.08) rotate(3deg);
+}
+
+.impact-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--g);
+  border: 3.5px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
+}
+.impact-slider::-moz-range-thumb:hover {
+  transform: scale(1.15);
+  background: var(--g2);
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+.input-wrapper input {
+  padding-right: 2.8rem !important;
+}
+.validation-indicator {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+.validation-indicator.valid {
+  opacity: 1;
+  color: var(--g);
+}
+.validation-indicator.invalid {
+  opacity: 1;
+  color: #ef4444;
+}
+.impact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: left;
+}
+.impact-details h4 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text);
+}
+.impact-details p {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.impact-cost-badge {
+  display: inline-block;
+  background: rgba(22, 163, 74, 0.06);
+  color: var(--g);
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 99px;
+  align-self: flex-start;
+  margin-top: 0.2rem;
+}
+
+/* Step 4: Contact Grid */
+.wizard-contact-form {
+  margin-top: 0.5rem;
+}
+.wizard-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+.wizard-form-grid .fg:last-child {
+  grid-column: span 2;
+}
+
+/* Navigation Buttons Block */
+.wizard-nav-btns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+.wizard-nav-btns button {
+  padding: 0.85rem 2rem;
+  font-size: 0.9rem;
+  border-radius: 99px;
+}
+
+/* Success Splash Panel */
+.success-splash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+.success-checkmark-svg {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  margin: 0 auto 0.5rem;
+  box-shadow: inset 0px 0px 0px var(--g);
+  animation: success-fill .4s ease-in-out .4s forwards, success-scale .3s ease-in-out .9s both;
+}
+.success-checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: var(--g);
+  fill: none;
+  animation: success-stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+.success-checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: #fff;
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  animation: success-stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+@keyframes success-stroke {
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes success-fill {
+  100% { box-shadow: inset 0px 0px 0px 40px var(--g); }
+}
+@keyframes success-scale {
+  0%, 100% { transform: none; }
+  50% { transform: scale3d(1.1, 1.1, 1); }
+}
+
+@media (max-width: 600px) {
+  .role-grid, .interests-grid, .wizard-form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .wizard-form-grid .fg:last-child {
+    grid-column: span 1 !important;
+  }
+  .wizard-modal-wrapper {
+    padding: 1.5rem;
+  }
+  .step-label {
+    display: none;
+  }
+}
+}</style>
+</head>
+<body>
+
+
+
+<!-- LOADER -->
+<div id="loader">
+  <img src="assets/logo.png" class="loader-logo" alt="IAF"/>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+  <div class="loader-text">Loading&hellip;</div>
+</div>
+
+<!-- FLOATING PARTICLES -->
+<div id="particles"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">
+    <img src="assets/logo.png" alt="InAmigos Foundation"/>
+    <div class="nav-tagline">Uniting Minds<br>for Change</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="javascript:void(0)" onclick="openWizard('volunteer')" class="nav-btn">Volunteer →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg" style="background-image:url('assets/main_head_banner.png')"></div>
+  <div class="hero-overlay"></div>
+  <!-- blobs -->
+  <div class="blob" style="width:500px;height:500px;background:var(--g);top:-100px;left:-100px;animation-duration:12s"></div>
+  <div class="blob" style="width:400px;height:400px;background:var(--o);bottom:-80px;right:-80px;animation-duration:9s;animation-delay:3s"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" id="hEyebrow"><div class="hero-dot"></div>Section 8 Registered NGO &nbsp;·&nbsp; Founded 2020</div>
+    <h1 class="hero-h" id="hTitle">Uniting Minds,<br><em>Transforming Lives</em></h1>
+    <p class="hero-sub" id="hSub">InAmigos Foundation creates lasting change across India through education, empowerment, environment, animal welfare, and community service.</p>
+    <div class="hero-btns" id="hBtns">
+      <a href="#projects" class="btn-g">Explore Projects</a>
+      <a href="javascript:void(0)" onclick="openWizard()" class="btn-outline">Join Us Today</a>
+    </div>
+  </div>
+  <div class="hero-stats" id="hStats">
+    <div class="hstat"><div class="hstat-n">50K+</div><div class="hstat-l">Meals Given</div></div>
+    <div class="hstat"><div class="hstat-n">20K+</div><div class="hstat-l">Trees Planted</div></div>
+    <div class="hstat"><div class="hstat-n">900+</div><div class="hstat-l">Women Empowered</div></div>
+  </div>
+  <div class="hero-scroll" id="hScroll">
+    <div class="scroll-line"></div>
+    <div class="scroll-txt">Scroll</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-wrap">
+    <div class="about-left" data-reveal="left">
+      <img src="assets/kids_smiling.png" class="about-img-main" alt="InAmigos beneficiaries"/>
+      <img src="assets/kids_hands.png" class="about-img-float" alt="Project SEVA"/>
+      <div class="about-year-badge">
+        <div class="ayb-n">2020</div>
+        <div class="ayb-l">Founded</div>
+      </div>
+    </div>
+    <div class="about-right" data-reveal="right">
+      <div class="eyebrow">About InAmigos Foundation</div>
+      <h2>Building India,<br>One Community<br>at a Time</h2>
+      <p>Founded on September 23, 2020 by Mr. Govind Shukla in Bilaspur, Chhattisgarh — InAmigos Foundation (IAF) is a government-registered NGO committed to creating an inclusive, empowered, and sustainable India.</p>
+      <p>With a network of 200+ volunteers across 28 states and 6 impactful projects, IAF works tirelessly to bridge gaps in education, healthcare, environment, and economic opportunities.</p>
+      <div class="cert-grid">
+        <div class="cert">Section 8</div>
+        <div class="cert">80G & 12A</div>
+        <div class="cert">CSR-1</div>
+        <div class="cert">NITI Aayog</div>
+        <div class="cert">ISO 9001:2015</div>
+        <div class="cert">NGO Darpan</div>
+      </div>
+      <div class="mission-card">
+        <p><strong>Mission:</strong> "To empower communities through compassion, education, sustainability, and collective action."</p>
+        <p style="margin-top:.5rem"><strong>Vision:</strong> "A world where every individual has equal opportunities, dignity, education, and hope."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-inner">
+    <div class="sec-head" data-reveal="up">
+      <div class="sec-tag"><span></span>Our Causes</div>
+      <h2 class="sec-h">Six Initiatives, <em>One Heart</em></h2>
+      <p class="sec-sub">Each project is a focused response to a real social need — together forming a holistic mission of human flourishing.</p>
+    </div>
+    <div class="projects-grid">
+
+<div class="pcard pc-seva" data-reveal="up" data-delay="0"
+     data-title="Project SEVA — Serving Humanity with Compassion"
+     data-desc="Project SEVA focuses on helping underprivileged communities through food distribution, clothing donation drives, and emergency support initiatives. The project ensures that vulnerable individuals receive dignity, care, and essential support."
+     data-impact="50,000+ meals distributed;Clothing support for needy families;Community welfare initiatives;Humanitarian relief activities"
+     data-social="This initiative fights hunger, poverty, and inequality while promoting kindness and social responsibility."
+     data-theme="#f97316"
+     data-image="assets/project_seva.png">
+  <div class="pcard-img-wrap">
+    <img class="pcard-img" src="assets/seva_ration.png" alt="Project SEVA">
+    <div class="pcard-glow"></div>
+    <div class="pcard-num">01</div>
+  </div>
+  <div class="pcard-body">
+    <div class="pcard-cat">Project SEVA</div>
+    <h3 class="pcard-title">Serving Humanity with Compassion</h3>
+    <p class="pcard-desc">Food distribution, clothing drives & emergency support — ensuring vulnerable communities receive dignity, care, and essential support.</p>
+    <div class="pcard-impacts">
+      <div class="pcard-impact">50,000+ meals distributed</div>
+      <div class="pcard-impact">Clothing support for needy families</div>
+      <div class="pcard-impact">Community welfare initiatives</div>
+    </div>
+    <div class="pcard-foot">
+      <div><div class="pcard-stat">50K+</div><div class="pcard-lbl">Meals Given</div></div>
+      <a href="javascript:void(0)" class="pcard-cta">Support →</a>
+    </div>
+  </div>
+</div>
+
+<div class="pcard pc-bachpan" data-reveal="up" data-delay="0.1"
+     data-title="Project BachpanShala — Educating Young Minds"
+     data-desc="Project BachpanShala is dedicated to providing quality education and learning opportunities for underprivileged children. The initiative focuses on basic education, digital literacy, life skills, and academic support."
+     data-impact="Education support for children;Digital literacy training;Learning workshops;School assistance programs"
+     data-social="Education empowers children to break the cycle of poverty and build a brighter future."
+     data-theme="#3b82f6"
+     data-image="assets/project_bachpanshala_juice.png">
+  <div class="pcard-img-wrap">
+    <img class="pcard-img" src="assets/project_bachpanshala_classroom.png" alt="BachpanShala">
+    <div class="pcard-glow"></div>
+    <div class="pcard-num">02</div>
+  </div>
+  <div class="pcard-body">
+    <div class="pcard-cat">BachpanShala</div>
+    <h3 class="pcard-title">Educating Young Minds</h3>
+    <p class="pcard-desc">Quality education & digital literacy for underprivileged children — breaking cycles of poverty and building a brighter future.</p>
+    <div class="pcard-impacts">
+      <div class="pcard-impact">Education support for children</div>
+      <div class="pcard-impact">Digital literacy training</div>
+      <div class="pcard-impact">Learning workshops</div>
+    </div>
+    <div class="pcard-foot">
+      <div><div class="pcard-stat">∞</div><div class="pcard-lbl">Dreams Lit</div></div>
+      <a href="javascript:void(0)" class="pcard-cta">Support →</a>
+    </div>
+  </div>
+</div>
+
+<div class="pcard pc-jeev" data-reveal="up" data-delay="0.2"
+     data-title="Project JEEV — Voice for the Voiceless"
+     data-desc="Project JEEV focuses on animal welfare, rescue operations, feeding stray animals, and spreading awareness about kindness toward animals and wildlife protection."
+     data-impact="50+ stray animals fed daily;Animal rescue & wildlife awareness;Summer water bowl drives for birds;Daily feeding and medical support"
+     data-social="This initiative promotes compassion, animal welfare, and co-existence while protecting street animals and wildlife."
+     data-theme="#a855f7"
+     data-image="assets/project_jeev.png">
+  <div class="pcard-img-wrap">
+    <img class="pcard-img" src="assets/jeev_dog.png" alt="Project JEEV">
+    <div class="pcard-glow"></div>
+    <div class="pcard-num">03</div>
+  </div>
+  <div class="pcard-body">
+    <div class="pcard-cat">Project JEEV</div>
+    <h3 class="pcard-title">Voice for the Voiceless</h3>
+    <p class="pcard-desc">Animal welfare, rescue operations & daily feeding of stray animals — because every life deserves compassion and protection.</p>
+    <div class="pcard-impacts">
+      <div class="pcard-impact">50+ stray animals fed daily</div>
+      <div class="pcard-impact">Animal rescue & wildlife awareness</div>
+      <div class="pcard-impact">Summer water bowl drives for birds</div>
+    </div>
+    <div class="pcard-foot">
+      <div><div class="pcard-stat">50+</div><div class="pcard-lbl">Daily Fed</div></div>
+      <a href="javascript:void(0)" class="pcard-cta">Support →</a>
+    </div>
+  </div>
+</div>
+
+<div class="pcard pc-udaan" data-reveal="up" data-delay="0"
+     data-title="Project UDAAN — Women Empowerment & Independence"
+     data-desc="Project UDAAN is dedicated to empowering women by providing skill training, leadership workshops, and financial independence programs."
+     data-impact="900+ women empowered;Skill development programs;Entrepreneurship support;Menstrual hygiene awareness"
+     data-social="The project creates confident, financially independent women who uplift families and communities."
+     data-theme="#ec4899"
+     data-image="assets/project_udaan.png">
+  <div class="pcard-img-wrap">
+    <img class="pcard-img" src="assets/project_udaan.png" alt="Project UDAAN">
+    <div class="pcard-glow"></div>
+    <div class="pcard-num">04</div>
+  </div>
+  <div class="pcard-body">
+    <div class="pcard-cat">Project UDAAN</div>
+    <h3 class="pcard-title">Women Empowerment & Independence</h3>
+    <p class="pcard-desc">Skill development, entrepreneurship training & financial independence — creating confident and self-reliant women.</p>
+    <div class="pcard-impacts">
+      <div class="pcard-impact">900+ women empowered</div>
+      <div class="pcard-impact">Skill development programs</div>
+      <div class="pcard-impact">Entrepreneurship support</div>
+    </div>
+    <div class="pcard-foot">
+      <div><div class="pcard-stat">900+</div><div class="pcard-lbl">Women Strong</div></div>
+      <a href="javascript:void(0)" class="pcard-cta">Support →</a>
+    </div>
+  </div>
+</div>
+
+<div class="pcard pc-prakriti" data-reveal="up" data-delay="0.1"
+     data-title="Project PRAKRITI — Protecting Nature for Future Generations"
+     data-desc="Project PRAKRITI promotes environmental sustainability through tree plantation drives, water conservation awareness, and eco-friendly practices."
+     data-impact="20,000+ saplings planted;Water conservation campaigns;Sustainability awareness workshops;Green environment initiatives"
+     data-social="The initiative helps combat climate change, pollution, and environmental degradation."
+     data-theme="#22c55e"
+     data-image="assets/project_prakriti.png">
+  <div class="pcard-img-wrap">
+    <img class="pcard-img" src="assets/prakriti_planting.jpg" alt="Project PRAKRITI">
+    <div class="pcard-glow"></div>
+    <div class="pcard-num">05</div>
+  </div>
+  <div class="pcard-body">
+    <div class="pcard-cat">Project PRAKRITI</div>
+    <h3 class="pcard-title">Protecting Nature for Future Generations</h3>
+    <p class="pcard-desc">Tree plantation drives, water conservation & eco practices — fighting climate change one tree at a time.</p>
+    <div class="pcard-impacts">
+      <div class="pcard-impact">20,000+ saplings planted</div>
+      <div class="pcard-impact">Water conservation campaigns</div>
+      <div class="pcard-impact">Sustainability awareness workshops</div>
+    </div>
+    <div class="pcard-foot">
+      <div><div class="pcard-stat">20K+</div><div class="pcard-lbl">Trees Planted</div></div>
+      <a href="javascript:void(0)" class="pcard-cta">Support →</a>
+    </div>
+  </div>
+</div>
+
+<div class="pcard pc-vikas" data-reveal="up" data-delay="0.2"
+     data-title="Project VIKAS — Building Careers & Skills"
+     data-desc="Project VIKAS provides internship opportunities and skill development programs for students and youth in various fields including research, finance, marketing, content writing, and digital operations."
+     data-impact="30,000+ interns trained;Career development opportunities;Practical industry experience;Youth empowerment"
+     data-social="The project enhances employability and professional growth among young individuals."
+     data-theme="#eab308"
+     data-image="assets/building_carrer_and_skills.png">
+  <div class="pcard-img-wrap">
+    <img class="pcard-img" src="assets/building_carrer_and_skills.png" alt="Project VIKAS">
+    <div class="pcard-glow"></div>
+    <div class="pcard-num">06</div>
+  </div>
+  <div class="pcard-body">
+    <div class="pcard-cat">Project VIKAS</div>
+    <h3 class="pcard-title">Building Careers & Skills</h3>
+    <p class="pcard-desc">Internship opportunities & skill development in research, finance, marketing, content & tech fields.</p>
+    <div class="pcard-impacts">
+      <div class="pcard-impact">30,000+ interns trained</div>
+      <div class="pcard-impact">Career development opportunities</div>
+      <div class="pcard-impact">Practical industry experience</div>
+    </div>
+    <div class="pcard-foot">
+      <div><div class="pcard-stat">30K+</div><div class="pcard-lbl">Youth Trained</div></div>
+      <a href="javascript:void(0)" class="pcard-cta">Apply →</a>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ACTIVE CAMPAIGNS & SPONSOR-A-CAUSE -->
+<section id="campaigns" style="padding: 3rem 0 7rem 0; background: var(--off); position: relative;">
+  <div class="projects-inner">
+    <div class="sec-head" data-reveal="up" style="margin-bottom: 3rem; text-align: center;">
+      <div class="sec-tag"><span></span>Active Campaigns</div>
+      <h2 class="sec-h">Sponsor a <em>Specific Cause</em></h2>
+      <p class="sec-sub">Make an immediate, direct impact on our active fundraisers. Track targets transparently.</p>
+    </div>
+    
+    <div class="campaigns-grid">
+      <!-- Campaign Card 1 -->
+      <div class="campaign-card" data-reveal="up" data-delay="0">
+        <div class="campaign-card-content">
+          <div class="campaign-tag-row">
+            <span class="campaign-badge nutrition-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18h.01M16 3v3M8 3v3M2 14a10 10 0 0 0 20 0v-4H2z"/></svg>
+              Nutrition
+            </span>
+            <span class="campaign-percentage">75%</span>
+          </div>
+          <h3 class="campaign-title">Project SEVA: Nutrition & Meals</h3>
+          <p class="campaign-desc">Providing healthy daily meals to 150 children in underserved urban clusters for the upcoming month.</p>
+          <div class="campaign-progress-container">
+            <div class="campaign-progress-bar" style="width: 75%; background: linear-gradient(90deg, var(--o2), var(--o));"></div>
+          </div>
+          <div class="campaign-stats-row">
+            <div class="campaign-stat-col">
+              <span class="campaign-stat-val">₹11,250</span>
+              <span class="campaign-stat-lbl">Raised</span>
+            </div>
+            <div class="campaign-stat-col" style="text-align: right;">
+              <span class="campaign-stat-val">₹15,000</span>
+              <span class="campaign-stat-lbl">Goal</span>
+            </div>
+          </div>
+          <button onclick="sponsorCampaign('nutrition', 2)" class="campaign-btn">Sponsor Cause &rarr;</button>
+        </div>
+      </div>
+      
+      <!-- Campaign Card 2 -->
+      <div class="campaign-card" data-reveal="up" data-delay="0.1">
+        <div class="campaign-card-content">
+          <div class="campaign-tag-row">
+            <span class="campaign-badge education-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              Education
+            </span>
+            <span class="campaign-percentage">72%</span>
+          </div>
+          <h3 class="campaign-title">Project BachpanShala: Educating Kids</h3>
+          <p class="campaign-desc">Sponsoring digital literacy workshops, study materials, and quality learning kits for underprivileged children.</p>
+          <div class="campaign-progress-container">
+            <div class="campaign-progress-bar" style="width: 72%; background: linear-gradient(90deg, var(--g2), var(--g));"></div>
+          </div>
+          <div class="campaign-stats-row">
+            <div class="campaign-stat-col">
+              <span class="campaign-stat-val">₹18,000</span>
+              <span class="campaign-stat-lbl">Raised</span>
+            </div>
+            <div class="campaign-stat-col" style="text-align: right;">
+              <span class="campaign-stat-val">₹25,000</span>
+              <span class="campaign-stat-lbl">Goal</span>
+            </div>
+          </div>
+          <button onclick="sponsorCampaign('education', 4)" class="campaign-btn">Sponsor Cause &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Campaign Card 3 -->
+      <div class="campaign-card" data-reveal="up" data-delay="0.2">
+        <div class="campaign-card-content">
+          <div class="campaign-tag-row">
+            <span class="campaign-badge environment-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 8a8.5 8.5 0 0 1-9 10Z"/><path d="M9 22v-4h4"/></svg>
+              Environment
+            </span>
+            <span class="campaign-percentage">45%</span>
+          </div>
+          <h3 class="campaign-title">Project PRAKRITI: Tree Plantations</h3>
+          <p class="campaign-desc">Planting native tree saplings and promoting urban green cover to combat rising temperatures.</p>
+          <div class="campaign-progress-container">
+            <div class="campaign-progress-bar" style="width: 45%; background: linear-gradient(90deg, var(--g2), var(--g));"></div>
+          </div>
+          <div class="campaign-stats-row">
+            <div class="campaign-stat-col">
+              <span class="campaign-stat-val">₹4,500</span>
+              <span class="campaign-stat-lbl">Raised</span>
+            </div>
+            <div class="campaign-stat-col" style="text-align: right;">
+              <span class="campaign-stat-val">₹10,000</span>
+              <span class="campaign-stat-lbl">Goal</span>
+            </div>
+          </div>
+          <button onclick="sponsorCampaign('environment', 3)" class="campaign-btn">Sponsor Cause &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Campaign Card 4 -->
+      <div class="campaign-card" data-reveal="up" data-delay="0.3">
+        <div class="campaign-card-content">
+          <div class="campaign-tag-row">
+            <span class="campaign-badge animal-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14c-1.66 0-3 1.34-3 3 0 2 2 3.5 3 4 1-.5 3-2 3-4 0-1.66-1.34-3-3-3zm-5.5-2c-.83 0-1.5.67-1.5 1.5s1 2.5 2 2.5 1-1.17 1-2.5c0-.83-.67-1.5-1.5-1.5zm11 0c-.83 0-1.5.67-1.5 1.5 0 1.33 0 2.5 1 2.5s2-1.5 2-2.5-.67-1.5-1.5-1.5zm-8-4C8.67 8 8 8.67 8 9.5c0 1 1 2 2 2s1.5-.67 1.5-1.5c0-.83-.83-1.5-1.5-1.5zm5 0c-.67 0-1.5.67-1.5 1.5 0 .83.5 1.5 1.5 1.5s2-1 2-2c0-.83-.83-1.5-2-1.5z"/></svg>
+              Animal Care
+            </span>
+            <span class="campaign-percentage">80%</span>
+          </div>
+          <h3 class="campaign-title">Project JEEV: Animal Welfare</h3>
+          <p class="campaign-desc">Funding daily feeding drives, emergency medical rescues, and water bowl setups for street animals in distress.</p>
+          <div class="campaign-progress-container">
+            <div class="campaign-progress-bar" style="width: 80%; background: linear-gradient(90deg, var(--o2), var(--o));"></div>
+          </div>
+          <div class="campaign-stats-row">
+            <div class="campaign-stat-col">
+              <span class="campaign-stat-val">₹9,600</span>
+              <span class="campaign-stat-lbl">Raised</span>
+            </div>
+            <div class="campaign-stat-col" style="text-align: right;">
+              <span class="campaign-stat-val">₹12,000</span>
+              <span class="campaign-stat-lbl">Goal</span>
+            </div>
+          </div>
+          <button onclick="sponsorCampaign('animal', 1)" class="campaign-btn">Sponsor Cause &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE -->
+<div class="wave-sep"><svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#0a0a0a"/></svg></div>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="blob" style="width:350px;height:350px;background:var(--g);top:50%;left:10%;animation-duration:10s"></div>
+  <div class="blob" style="width:300px;height:300px;background:var(--o);top:20%;right:5%;animation-duration:8s;animation-delay:2s"></div>
+  <div class="stats-inner">
+    <div class="sec-head" data-reveal="up" style="margin-bottom:3rem">
+      <div class="sec-tag" style="background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.3);color:var(--g3)"><span style="background:var(--g3)"></span>Impact Numbers</div>
+      <h2 class="sec-h" style="color:#fff">Numbers That <em>Tell a Story</em></h2>
+      <p class="sec-sub" style="color:rgba(255,255,255,.5)">Each number represents a real human life changed — a child educated, a woman empowered, a tree that breathes.</p>
+    </div>
+        <div class="stats-grid">
+      <div class="stat-card" data-reveal="up" data-delay="0"><span class="stat-num" data-target="50000">0</span><div class="stat-lbl">Meals Distributed</div><div class="stat-ring"></div></div>
+      <div class="stat-card" data-reveal="up" data-delay="0.1"><span class="stat-num" data-target="20000">0</span><div class="stat-lbl">Trees Planted</div><div class="stat-ring"></div></div>
+      <div class="stat-card" data-reveal="up" data-delay="0.2"><span class="stat-num" data-target="900">0</span><div class="stat-lbl">Women Empowered</div><div class="stat-ring"></div></div>
+      <div class="stat-card" data-reveal="up" data-delay="0.3"><span class="stat-num" data-target="30000">0</span><div class="stat-lbl">Interns Trained</div><div class="stat-ring"></div></div>
+      <div class="stat-card" data-reveal="up" data-delay="0"><span class="stat-num" data-target="50">0</span><div class="stat-lbl">Animals Fed Daily</div><div class="stat-ring"></div></div>
+      <div class="stat-card" data-reveal="up" data-delay="0.1"><span class="stat-num" data-target="28">0</span><div class="stat-lbl">States Reached</div><div class="stat-ring"></div></div>
+      <div class="stat-card" data-reveal="up" data-delay="0.2"><span class="stat-num" data-target="200">0</span><div class="stat-lbl">Volunteers</div><div class="stat-ring"></div></div>
+      <div class="stat-card" data-reveal="up" data-delay="0.3"><span class="stat-num" data-target="6">0</span><div class="stat-lbl">Active Projects</div><div class="stat-ring"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE -->
+<div class="wave-sep" style="background:var(--dark)"><svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,40 C360,0 1080,80 1440,40 L1440,0 L0,0 Z" fill="white"/></svg></div>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gal-inner">
+    <div class="sec-head" data-reveal="up">
+      <div class="sec-tag"><span></span>Our Gallery</div>
+      <h2 class="sec-h">Real Work, <em>Real People</em></h2>
+      <p class="sec-sub">Glimpses of change — every photo tells a story of compassion, courage, and community.</p>
+    </div>
+        <div class="gal-masonry">
+      <div class="gal-item" data-reveal="up"><img src="gallery/Screenshot%202026-05-22%20115624.png" alt="Distribution Drive"/><div class="gal-overlay"><div class="gal-label">Project SEVA – Distribution Drive</div></div></div>
+      <div class="gal-item" data-reveal="up"><img src="gallery/Screenshot%202026-05-22%20115635.png" alt="Feeding Strays"/><div class="gal-overlay"><div class="gal-label">Project JEEV – Feeding Strays</div></div></div>
+      <div class="gal-item" data-reveal="up"><img src="gallery/Screenshot%202026-05-22%20115649.png" alt="Republic Day Celebration"/><div class="gal-overlay"><div class="gal-label">BachpanShala – Republic Day Celebration</div></div></div>
+      <div class="gal-item" data-reveal="up"><img src="gallery/Screenshot%202026-05-22%20115659.png" alt="Serving the Elderly"/><div class="gal-overlay"><div class="gal-label">Project SEVA – Serving the Elderly</div></div></div>
+      <div class="gal-item" data-reveal="up"><img src="gallery/Screenshot%202026-05-22%20115710.png" alt="Plantation Drive"/><div class="gal-overlay"><div class="gal-label">Project PRAKRITI – Plantation Drive</div></div></div>
+      <div class="gal-item" data-reveal="up"><img src="gallery/Screenshot%202026-05-22%20115727.png" alt="Community Outreach"/><div class="gal-overlay"><div class="gal-label">Project SEVA – Community Outreach</div></div></div>
+      <div class="gal-item" data-reveal="up"><img src="gallery/Screenshot%202026-05-22%20115736.png" alt="Women Empowerment"/><div class="gal-overlay"><div class="gal-label">Project UDAAN – Women Empowerment</div></div></div>
+      <div class="gal-item" data-reveal="up"><img src="gallery/Screenshot%202026-05-22%20121443.png" alt="Animal Care"/><div class="gal-overlay"><div class="gal-label">Project JEEV – Animal Care</div></div></div>
+      <div class="gal-item" data-reveal="up"><img src="gallery/Screenshot%202026-05-22%20121452.png" alt="Nurturing Childhood"/><div class="gal-overlay"><div class="gal-label">BachpanShala – Nurturing Childhood</div></div></div>
+      <div class="gal-item" data-reveal="up"><img src="gallery/Screenshot%202026-05-22%20164325.png" alt="Volunteer Team"/><div class="gal-overlay"><div class="gal-label">Project SEVA – Volunteer Team</div></div></div>
+      <div class="gal-item" data-reveal="up"><img src="gallery/Screenshot%202026-05-22%20164349.png" alt="InAmigos Food Kits"/><div class="gal-overlay"><div class="gal-label">Project SEVA – InAmigos Food Kits</div></div></div>
+      <div class="gal-item" data-reveal="up"><img src="gallery/Screenshot%202026-05-22%20164429.png" alt="Smiles of Hope"/><div class="gal-overlay"><div class="gal-label">Our Beneficiaries – Smiles of Hope</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- VOLUNTEER CTA -->
+<section id="volunteer">
+  <div class="blob" style="width:600px;height:600px;background:var(--g);top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:15s"></div>
+  <div class="vol-inner">
+    <div class="sec-tag" style="background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.3);color:var(--g3);margin-bottom:1rem"><span style="background:var(--g3)"></span>Be The Change</div>
+    <h2 class="sec-h" data-reveal="up">Join InAmigos,<br><em style="color:var(--g3)">Change a Life Today</em></h2>
+    <p class="sec-sub" data-reveal="up">Every hour you give, every rupee you donate, every tree you plant — ripples into thousands of lives. Be part of something bigger than yourself.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem" data-reveal="up">
+      <a href="javascript:void(0)" onclick="openWizard('volunteer')" class="btn-g">Volunteer Now<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px; vertical-align: middle; transition: transform 0.3s;" class="btn-arrow"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="javascript:void(0)" onclick="openWizard('donor')" class="btn-outline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Donate Today</a>
+    </div>
+    <div class="vol-cards-row" data-reveal="up">
+      <div class="vol-card">
+        <div class="vol-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--g3)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display: block; margin: 0 auto; filter: drop-shadow(0 0 8px rgba(74,222,128,0.25));"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 8a8.5 8.5 0 0 1-9 10Z"/><path d="M9 22v-4h4"/></svg>
+        </div>
+        <div class="vol-card-label">Plant a Tree</div>
+        <div class="vol-card-sub">Project PRAKRITI</div>
+      </div>
+      <div class="vol-card">
+        <div class="vol-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--g3)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display: block; margin: 0 auto; filter: drop-shadow(0 0 8px rgba(74,222,128,0.25));"><path d="M3 12h18M3 12a9 9 0 0 0 18 0M7 8V4M12 8V2M17 8V4"/></svg>
+        </div>
+        <div class="vol-card-label">Feed Someone</div>
+        <div class="vol-card-sub">Project SEVA</div>
+      </div>
+      <div class="vol-card">
+        <div class="vol-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--g3)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display: block; margin: 0 auto; filter: drop-shadow(0 0 8px rgba(74,222,128,0.25));"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+        </div>
+        <div class="vol-card-label">Intern with IAF</div>
+        <div class="vol-card-sub">Project VIKAS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-inner">
+    <div class="sec-head" data-reveal="up">
+      <div class="sec-tag"><span></span>FAQs</div>
+      <h2 class="sec-h">Common <em>Questions</em></h2>
+    </div>
+    <div id="faqList">
+      <div class="faq-item"><div class="faq-q">What is InAmigos Foundation?<div class="faq-arrow">▼</div></div><div class="faq-a"><div class="faq-a-inner">InAmigos Foundation (IAF) is a Section 8 registered non-profit organization founded in 2020 by Mr. Govind Shukla in Bilaspur, Chhattisgarh. It is ISO 9001:2015 certified, 80G & 12A certified, CSR-1 registered, and recognized by NITI Aayog (NGO Darpan). IAF runs 6 impactful projects across education, environment, animal welfare, women empowerment, food distribution, and youth skill development.</div></div></div>
+      <div class="faq-item"><div class="faq-q">How can I volunteer with IAF?<div class="faq-arrow">▼</div></div><div class="faq-a"><div class="faq-a-inner">You can volunteer by filling the contact form on this page or emailing support@inamigosfoundation.org.in. IAF has volunteer opportunities across 28 states in India in areas ranging from field work, digital operations, content writing, research, and more. You can also apply for an internship through Project VIKAS.</div></div></div>
+      <div class="faq-item"><div class="faq-q">How can I donate to InAmigos Foundation?<div class="faq-arrow">▼</div></div><div class="faq-a"><div class="faq-a-inner">InAmigos Foundation accepts donations for all its 6 projects. Donations are eligible for 80G tax exemption. Contact support@inamigosfoundation.org.in or call +91 6267 309 902 for donation details. Your contribution directly funds food kits, tree plantations, education materials, and more.</div></div></div>
+      <div class="faq-item"><div class="faq-q">What is Project VIKAS and how do I apply?<div class="faq-arrow">▼</div></div><div class="faq-a"><div class="faq-a-inner">Project VIKAS is IAF's internship & youth skill development initiative. It has trained 30,000+ interns across India in fields like research, finance, marketing, content writing, HR, and digital operations. Apply by emailing Hr@inamigosfoundation.org.in or through IAF's official website at inamigosfoundation.org.in.</div></div></div>
+      <div class="faq-item"><div class="faq-q">Is IAF active in my city/state?<div class="faq-arrow">▼</div></div><div class="faq-a"><div class="faq-a-inner">Yes! InAmigos Foundation currently operates across 28 states in India. From Chhattisgarh to Uttar Pradesh, Haryana, Rohtak, and beyond — IAF's volunteer network reaches communities nationwide. Contact the foundation to find a chapter near you.</div></div></div>
+      <div class="faq-item"><div class="faq-q">Can companies partner with IAF for CSR?<div class="faq-arrow">▼</div></div><div class="faq-a"><div class="faq-a-inner">Absolutely. InAmigos Foundation is CSR-1 registered, enabling seamless corporate partnerships for impactful CSR initiatives across all 6 project areas. Email support@inamigosfoundation.org.in to discuss partnership opportunities aligned with your company's CSR goals.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-left" data-reveal="left">
+      <div class="sec-tag" style="margin-bottom:1rem"><span></span>Get In Touch</div>
+      <h2>Let's Create<br>Change Together</h2>
+      <p>Whether you want to volunteer, donate, intern, or partner — InAmigos Foundation welcomes every form of contribution. Reach out and become part of the change.</p>
+      <div class="cinfo-item"><div class="cinfo-dot"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block; margin: 0 auto;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="cinfo-label">Address</div><div class="cinfo-val">Ward No. 5, Gram Post Sipat Ujwal Nagar,<br>Bilaspur, Chhattisgarh – 495555</div></div></div>
+      <div class="cinfo-item"><div class="cinfo-dot"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block; margin: 0 auto;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div><div class="cinfo-label">Phone</div><div class="cinfo-val">+91 6267 309 902</div></div></div>
+      <div class="cinfo-item"><div class="cinfo-dot"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block; margin: 0 auto;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="cinfo-label">Email</div><div class="cinfo-val">support@inamigosfoundation.org.in<br>Hr@inamigosfoundation.org.in</div></div></div>
+      <div class="cinfo-item"><div class="cinfo-dot"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block; margin: 0 auto;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div><div class="cinfo-label">Website</div><div class="cinfo-val"><a href="https://inamigosfoundation.org.in" style="color:var(--g)">inamigosfoundation.org.in</a></div></div></div>
+      <div class="socials-row">
+        <a href="https://instagram.com/inamigos" class="soc">Instagram</a>
+        <a href="https://linkedin.com/company/inamigos-foundation" class="soc">LinkedIn</a>
+        <a href="https://facebook.com" class="soc">Facebook</a>
+      </div>
+    </div>
+    <div class="form-wrap" data-reveal="right">
+      <h3>Join Our Mission</h3>
+      <div class="fg"><label>Full Name</label><input type="text" placeholder="Your full name"/></div>
+      <div class="fg"><label>Email Address</label><input type="email" placeholder="your@email.com"/></div>
+      <div class="fg"><label>Phone</label><input type="tel" placeholder="+91 XXXXX XXXXX"/></div>
+      <div class="fg"><label>I Want To</label><select><option>Volunteer with InAmigos</option><option>Donate / Contribute</option><option>Apply for Internship (VIKAS)</option><option>CSR Partnership</option><option>General Inquiry</option></select></div>
+      <div class="fg"><label>Message</label><textarea placeholder="Tell us how you'd like to contribute..."></textarea></div>
+      <button class="form-submit" onclick="handleForm(this)"><span>Send Message →</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <img src="assets/logo.png" class="footer-logo" alt="IAF"/>
+      <p>InAmigos Foundation — uniting minds for change since 2020. A registered non-profit building a compassionate, educated, and sustainable India.</p>
+      <div class="f-tags">
+        <span class="f-tag">Section 8</span><span class="f-tag">ISO 9001:2015</span><span class="f-tag">NITI Aayog</span><span class="f-tag">80G & 12A</span><span class="f-tag">CSR-1</span>
+      </div>
+    </div>
+    <div><div class="f-head">Projects</div><ul class="f-links"><li><a href="#projects">Project SEVA</a></li><li><a href="#projects">BachpanShala</a></li><li><a href="#projects">Project JEEV</a></li><li><a href="#projects">Project UDAAN</a></li><li><a href="#projects">Project PRAKRITI</a></li><li><a href="#projects">Project VIKAS</a></li></ul></div>
+    <div><div class="f-head">Navigate</div><ul class="f-links"><li><a href="#about">About Us</a></li><li><a href="#stats">Impact</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li></ul></div>
+    <div><div class="f-head">Contact</div><ul class="f-links"><li><a href="mailto:support@inamigosfoundation.org.in">support@inamigosfoundation.org.in</a></li><li><a href="tel:+916267309902">+91 6267 309 902</a></li><li><a href="#">Bilaspur, Chhattisgarh</a></li><li><a href="https://inamigosfoundation.org.in">Official Website</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 <strong>InAmigos Foundation (IAF)</strong>. All Rights Reserved &nbsp;·&nbsp; Bilaspur, CG, India</p>
+    <div class="hashtag-line">#InAmigos &nbsp; #ProjectSEVA &nbsp; #BachpanShala &nbsp; #ProjectJEEV &nbsp; #ProjectUDAAN &nbsp; #ProjectPRAKRITI &nbsp; #ProjectVIKAS &nbsp; #BeTheChange &nbsp; #UnitingMindsForChange</div>
+  </div>
+</footer>
+
+<!-- PROJECT DETAIL MODAL -->
+<div class="project-modal" id="projectModal">
+  <div class="project-modal-wrapper" id="projectModalWrapper">
+    <button class="project-modal-close" id="closeModalBtn" aria-label="Close modal">×</button>
+    <div class="project-modal-left">
+      <div class="project-modal-bg-blur" id="modalBgBlur"></div>
+      <img src="" alt="" class="project-modal-img" id="modalImg">
+      <div class="project-modal-left-overlay"></div>
+      <div class="project-modal-left-content">
+        <span class="project-modal-theme-badge" id="modalBadge">Category</span>
+      </div>
+    </div>
+    <div class="project-modal-right">
+      <h2 class="project-modal-title" id="modalTitle">Project Title</h2>
+      <p class="project-modal-desc" id="modalDesc">Project description goes here...</p>
+      
+      <div>
+        <h4 class="project-modal-section-title">Key Impacts</h4>
+        <ul class="project-modal-impacts-list" id="modalImpacts">
+          <!-- Dynamically populated -->
+        </ul>
+      </div>
+      
+      <div class="project-modal-social-card" id="modalSocialCard">
+        <h4 class="project-modal-section-title">Social Impact</h4>
+        <p class="project-modal-social-text" id="modalSocial">Social impact description...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHOOSE YOUR IMPACT WIZARD MODAL -->
+<div class="wizard-modal" id="wizardModal">
+  <div class="wizard-modal-wrapper" id="wizardModalWrapper">
+    <button class="wizard-modal-close" id="closeWizardBtn" aria-label="Close modal">×</button>
+    
+    <!-- Wizard Progress Stepper -->
+    <div class="wizard-progress">
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="wizardProgressFill"></div>
+      </div>
+      <div class="progress-steps">
+        <div class="step-node active" data-step="1">
+          1
+          <div class="step-label">Role</div>
+        </div>
+        <div class="step-node" data-step="2">
+          2
+          <div class="step-label">Interests</div>
+        </div>
+        <div class="step-node" data-step="3">
+          3
+          <div class="step-label">Impact</div>
+        </div>
+        <div class="step-node" data-step="4">
+          4
+          <div class="step-label">Details</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Steps Pane Container -->
+    <div class="wizard-steps-container">
+      
+      <!-- STEP 1: ROLE SELECTION -->
+      <div class="wizard-step-pane active" id="wizardStep1">
+        <h3>Choose Your Path</h3>
+        <p class="step-intro">Select how you would like to contribute to the InAmigos Foundation today.</p>
+        <div class="role-grid">
+          <div class="role-card" id="roleCardVolunteer" onclick="selectRole('volunteer')">
+            <div class="role-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <h4>Volunteer Now</h4>
+            <p>Give your time, skills, and energy to support our ground-level initiatives.</p>
+          </div>
+          <div class="role-card" id="roleCardDonor" onclick="selectRole('donor')">
+            <div class="role-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+            <h4>Donate Today</h4>
+            <p>Fund food kits, tree plantations, animal care, or school kit materials.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: INTERESTS & PASSIONS -->
+      <div class="wizard-step-pane" id="wizardStep2">
+        <h3>Select Your Passions</h3>
+        <p class="step-intro">Choose the key areas where you want to make an active difference.</p>
+        <div class="interests-grid">
+          <label class="interest-card">
+            <input type="checkbox" class="interest-input" value="education" name="wizInterests" onchange="updateInterestCards()">
+            <div class="interest-check-content">
+              <span class="interest-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </span>
+              <span class="interest-name">Education & Literacy</span>
+              <span class="interest-desc">BachpanShala & youth skill development drives.</span>
+            </div>
+          </label>
+          <label class="interest-card">
+            <input type="checkbox" class="interest-input" value="environment" name="wizInterests" onchange="updateInterestCards()">
+            <div class="interest-check-content">
+              <span class="interest-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 8a8.5 8.5 0 0 1-9 10Z"/><path d="M9 22v-4h4"/></svg>
+              </span>
+              <span class="interest-name">Environment</span>
+              <span class="interest-desc">Tree planting and green initiatives (PRAKRITI).</span>
+            </div>
+          </label>
+          <label class="interest-card">
+            <input type="checkbox" class="interest-input" value="nutrition" name="wizInterests" onchange="updateInterestCards()">
+            <div class="interest-check-content">
+              <span class="interest-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18h.01M16 3v3M8 3v3M2 14a10 10 0 0 0 20 0v-4H2z"/></svg>
+              </span>
+              <span class="interest-name">Nutrition & Food</span>
+              <span class="interest-desc">Feeding children and distribution drives (SEVA).</span>
+            </div>
+          </label>
+          <label class="interest-card">
+            <input type="checkbox" class="interest-input" value="animal" name="wizInterests" onchange="updateInterestCards()">
+            <div class="interest-check-content">
+              <span class="interest-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14c-1.66 0-3 1.34-3 3 0 2 2 3.5 3 4 1-.5 3-2 3-4 0-1.66-1.34-3-3-3zm-5.5-2c-.83 0-1.5.67-1.5 1.5s1 2.5 2 2.5 1-1.17 1-2.5c0-.83-.67-1.5-1.5-1.5zm11 0c-.83 0-1.5.67-1.5 1.5 0 1.33 0 2.5 1 2.5s2-1.5 2-2.5-.67-1.5-1.5-1.5zm-8-4C8.67 8 8 8.67 8 9.5c0 1 1 2 2 2s1.5-.67 1.5-1.5c0-.83-.83-1.5-1.5-1.5zm5 0c-.67 0-1.5.67-1.5 1.5 0 .83.5 1.5 1.5 1.5s2-1 2-2c0-.83-.83-1.5-2-1.5z"/></svg>
+              </span>
+              <span class="interest-name">Animal Welfare</span>
+              <span class="interest-desc">Rescuing, treating, and feeding street animals (JEEV).</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- STEP 3: DYNAMIC IMPACT CALCULATOR -->
+      <div class="wizard-step-pane" id="wizardStep3">
+        <h3>Calculate Your Impact</h3>
+        <p class="step-intro">Slide to adjust your commitment level and see the direct outcome.</p>
+        <div class="impact-calculator">
+          <div class="slider-container">
+            <input type="range" min="1" max="5" value="3" class="impact-slider" id="impactSlider" oninput="calculateWizardImpact()">
+            <div class="slider-ticks">
+              <span>Level 1</span>
+              <span>Level 2</span>
+              <span>Level 3</span>
+              <span>Level 4</span>
+              <span>Level 5</span>
+            </div>
+          </div>
+          <div class="impact-display-card">
+            <div class="impact-visual-icon" id="impactVisualIcon"></div>
+            <div class="impact-details">
+              <h4 id="impactTitle">Plant 10 Saplings</h4>
+              <p id="impactDesc">Funds the planting and care of 10 native trees.</p>
+              <div class="impact-cost-badge" id="impactCostBadge">₹1,500</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: QUICK CONTACT DETAILS -->
+      <div class="wizard-step-pane" id="wizardStep4">
+        <h3>Quick Contact Details</h3>
+        <p class="step-intro">Just a few quick details to secure your contribution and path.</p>
+        <div class="wizard-contact-form">
+          <div class="wizard-form-grid">
+            <div class="fg">
+              <label for="wizName">Full Name</label>
+              <div class="input-wrapper">
+                <input type="text" id="wizName" placeholder="Your full name" required oninput="validateWizStep4()" />
+                <span class="validation-indicator"></span>
+              </div>
+            </div>
+            <div class="fg">
+              <label for="wizEmail">Email Address</label>
+              <div class="input-wrapper">
+                <input type="email" id="wizEmail" placeholder="your@email.com" required oninput="validateWizStep4()" />
+                <span class="validation-indicator"></span>
+              </div>
+            </div>
+            <div class="fg">
+              <label for="wizPhone">Phone Number</label>
+              <div class="input-wrapper">
+                <input type="tel" id="wizPhone" placeholder="+91 XXXXX XXXXX" required oninput="validateWizStep4()" />
+                <span class="validation-indicator"></span>
+              </div>
+            </div>
+            <div class="fg">
+              <label for="wizMessage">Special Message (Optional)</label>
+              <textarea id="wizMessage" placeholder="Any special comments or requests..."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 5: SUCCESS SPLASH -->
+      <div class="wizard-step-pane" id="wizardSuccessStep">
+        <div class="success-splash">
+          <svg class="success-checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="success-checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="success-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+          <h3>Your Impact Journey Begins!</h3>
+          <p class="step-intro" style="max-width: 480px; margin: 0 auto;">Thank you for joining the InAmigos family. Our team will contact you within 24 hours to coordinate your contribution.</p>
+          <button class="btn-g" style="margin-top: 1.5rem;" onclick="closeWizard()">Done</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="wizard-nav-btns" id="wizardNavBtns">
+      <button class="btn-outline" id="wizBackBtn" onclick="wizPrevStep()">Back</button>
+      <button class="btn-g" id="wizNextBtn" onclick="wizNextStep()">Next <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px; vertical-align: middle; transition: transform 0.3s;" class="btn-arrow"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ── LOADER ──
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    gsap.to('#loader', {opacity:0, duration:.5, onComplete:()=>document.getElementById('loader').style.display='none'});
+    initHeroAnim();
+  }, 2000);
+});
+
+
+
+// ── PARTICLES ──
+const pc = document.getElementById('particles');
+for(let i=0;i<25;i++){
+  const p=document.createElement('div');
+  p.className='pt';
+  const s=Math.random()*5+2;
+  const cols=['rgba(22,163,74,.5)','rgba(249,115,22,.4)','rgba(74,222,128,.4)','rgba(255,255,255,.2)'];
+  p.style.cssText=`width:${s}px;height:${s}px;background:${cols[Math.floor(Math.random()*cols.length)]};left:${Math.random()*100}%;animation-duration:${12+Math.random()*15}s;animation-delay:${Math.random()*10}s;border-radius:50%`;
+  pc.appendChild(p);
+}
+
+// ── NAV ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>80);
+});
+
+// ── HERO ANIMATIONS ──
+function initHeroAnim(){
+  gsap.fromTo('#hEyebrow',{opacity:0,y:20},{opacity:1,y:0,duration:.7,delay:.1});
+  gsap.fromTo('#hTitle',{opacity:0,y:40},{opacity:1,y:0,duration:.9,delay:.3});
+  gsap.fromTo('#hSub',{opacity:0,y:30},{opacity:1,y:0,duration:.8,delay:.55});
+  gsap.fromTo('#hBtns',{opacity:0,y:25},{opacity:1,y:0,duration:.7,delay:.75});
+  gsap.fromTo('#hStats',{opacity:0,x:-30},{opacity:1,x:0,duration:.8,delay:1});
+  gsap.fromTo('#hScroll',{opacity:0},{opacity:1,duration:.6,delay:1.2});
+  // hero parallax
+  gsap.to('#heroBg',{yPercent:20,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:1}});
+}
+
+// ── SCROLL REVEALS ──
+document.querySelectorAll('[data-reveal]').forEach(el=>{
+  const dir = el.dataset.reveal;
+  const delay = parseFloat(el.dataset.delay||0);
+  const from = dir==='left'?{x:-60,opacity:0}:dir==='right'?{x:60,opacity:0}:{y:50,opacity:0};
+  gsap.fromTo(el, from, {x:0,y:0,opacity:1,duration:.9,delay,ease:'power3.out',
+    scrollTrigger:{trigger:el,start:'top 85%',toggleActions:'play none none none'}
+  });
+});
+
+// ── COUNTERS ──
+document.querySelectorAll('[data-target]').forEach(el=>{
+  ScrollTrigger.create({
+    trigger:el,start:'top 85%',once:true,
+    onEnter:()=>{
+      const t=+el.dataset.target;
+      gsap.to({val:0},{val:t,duration:2.2,ease:'power2.out',
+        onUpdate:function(){
+          const v=Math.floor(this.targets()[0].val);
+          el.textContent=t>=10000?Math.floor(v/1000)+'K+':v>=1000?v.toLocaleString()+'+':v+'+';
+        },
+        onComplete:()=>{el.textContent=t>=10000?Math.floor(t/1000)+'K+':t+'+';}
+      });
+    }
+  });
+});
+
+// ── 3D TILT ──
+document.querySelectorAll('.pcard').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    gsap.to(card,{rotateY:x*12,rotateX:-y*8,scale:1.02,duration:.4,ease:'power2.out',transformPerspective:800});
+  });
+  card.addEventListener('mouseleave',()=>{
+    gsap.to(card,{rotateY:0,rotateX:0,scale:1,duration:.5,ease:'elastic.out(1,.7)'});
+  });
+});
+
+// ── FAQ ──
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement;
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen)item.classList.add('open');
+  });
+});
+
+// ── FORM ──
+function handleForm(btn){
+  const span=btn.querySelector('span');
+  span.textContent='✓ Message Sent Successfully!';
+  gsap.fromTo(btn,{scale:.95},{scale:1,duration:.4,ease:'elastic.out(1,.5)'});
+  setTimeout(()=>{span.textContent='Send Message →';},3500);
+}
+
+// ── GSAP stagger for gallery ──
+gsap.fromTo('.gal-item',{opacity:0,y:40},{
+  opacity:1,y:0,duration:.6,stagger:.08,ease:'power3.out',
+  scrollTrigger:{trigger:'#gallery',start:'top 80%'}
+});
+
+// ── PROJECT MODAL INTERACTIVITY ──
+const modal = document.getElementById('projectModal');
+const modalCard = document.getElementById('projectModalWrapper');
+const modalBgBlur = document.getElementById('modalBgBlur');
+const modalImg = document.getElementById('modalImg');
+const modalBadge = document.getElementById('modalBadge');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc = document.getElementById('modalDesc');
+const modalImpacts = document.getElementById('modalImpacts');
+const modalSocial = document.getElementById('modalSocial');
+const modalSocialCard = document.getElementById('modalSocialCard');
+const closeModalBtn = document.getElementById('closeModalBtn');
+
+function openModal(card) {
+  const title = card.getAttribute('data-title');
+  const desc = card.getAttribute('data-desc');
+  const cat = card.querySelector('.pcard-cat').textContent;
+  const image = card.getAttribute('data-image');
+  const impacts = card.getAttribute('data-impact').split(';');
+  const social = card.getAttribute('data-social');
+  const theme = card.getAttribute('data-theme');
+
+  // Populate data
+  modalBgBlur.style.backgroundImage = `url('${image}')`;
+  modalImg.src = image;
+  modalImg.alt = title;
+  modalBadge.textContent = cat;
+  modalTitle.textContent = title;
+  modalDesc.textContent = desc;
+  modalSocial.textContent = social;
+  
+  // Populate impacts list
+  modalImpacts.innerHTML = '';
+  impacts.forEach(imp => {
+    if (imp.trim()) {
+      const li = document.createElement('li');
+      li.className = 'project-modal-impact-item';
+      li.textContent = imp.trim();
+      modalImpacts.appendChild(li);
+    }
+  });
+
+  // Open animation with GSAP
+  modal.classList.add('active');
+  gsap.fromTo(modal, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 });
+  gsap.fromTo(modalCard, 
+    { scale: 0.85, y: 50, opacity: 0 }, 
+    { scale: 1, y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.5)', clearProps: 'transform' }
+  );
+  
+  // Add body scroll lock
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  gsap.to(modalCard, {
+    scale: 0.85,
+    y: 50,
+    opacity: 0,
+    duration: 0.3,
+    ease: 'power2.in',
+    onComplete: () => {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+  gsap.to(modal, { autoAlpha: 0, duration: 0.3 });
+}
+
+// Bind clicks to all project cards
+document.querySelectorAll('.pcard').forEach(card => {
+  card.addEventListener('click', (e) => {
+    // Prevent default anchor click if clicking CTA button specifically
+    if (e.target.classList.contains('pcard-cta')) {
+      e.preventDefault();
+    }
+    openModal(card);
+  });
+});
+
+// Close triggers
+closeModalBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  closeModal();
+});
+
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    closeModal();
+  }
+});
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.classList.contains('active')) {
+    closeModal();
+  }
+});
+
+// ── CHOOSE YOUR IMPACT WIZARD MODAL INTERACTIVITY ──
+const wizModal = document.getElementById('wizardModal');
+const wizModalWrapper = document.getElementById('wizardModalWrapper');
+const closeWizBtn = document.getElementById('closeWizardBtn');
+const wizProgressFill = document.getElementById('wizardProgressFill');
+const wizNextBtn = document.getElementById('wizNextBtn');
+const wizBackBtn = document.getElementById('wizBackBtn');
+const wizNavBtns = document.getElementById('wizardNavBtns');
+const impactSlider = document.getElementById('impactSlider');
+
+let wizardRole = null;
+let currentStep = 1;
+
+const donorImpacts = [
+  { 
+    title: "Feed 5 Children", 
+    desc: "Your donation feeds 5 children healthy meals for a full week.", 
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18h.01M16 3v3M8 3v3M2 14a10 10 0 0 0 20 0v-4H2z"/></svg>`, 
+    badge: "₹500" 
+  },
+  { 
+    title: "Feed 10 Children", 
+    desc: "Provides 10 kids with nutritious lunches for a full week.", 
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M21 12H3M12 3v18"/></svg>`, 
+    badge: "₹1,000" 
+  },
+  { 
+    title: "Plant 10 Saplings", 
+    desc: "Funds the planting and care of 10 native trees.", 
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 8a8.5 8.5 0 0 1-9 10Z"/><path d="M9 22v-4h4"/></svg>`, 
+    badge: "₹1,500" 
+  },
+  { 
+    title: "Sponsor 3 Students", 
+    desc: "Supplies school bags, notebooks, and learning kits.", 
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`, 
+    badge: "₹2,500" 
+  },
+  { 
+    title: "Transform a Community", 
+    desc: "Sponsors education & feeds 10 children.", 
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`, 
+    badge: "₹5,000" 
+  }
+];
+
+const volunteerImpacts = [
+  { 
+    title: "Direct Tutoring", 
+    desc: "Help 2 children with their weekly school studies.", 
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`, 
+    badge: "5 hrs/wk" 
+  },
+  { 
+    title: "Field Coordinator", 
+    desc: "Lead 1 local nutrition or ration distribution drive.", 
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>`, 
+    badge: "10 hrs/wk" 
+  },
+  { 
+    title: "Environment Lead", 
+    desc: "Coordinate 2 community tree-planting campaigns.", 
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5M17 17H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5c.44-2.82 2.88-5 5.8-5 3.1 0 5.6 2.4 5.8 5.5A4 4 0 0 1 22 13a4 4 0 0 1-4 4z"/></svg>`, 
+    badge: "15 hrs/wk" 
+  },
+  { 
+    title: "Operations Supervisor", 
+    desc: "Manage digital operations & volunteer shifts.", 
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`, 
+    badge: "20 hrs/wk" 
+  },
+  { 
+    title: "Chapter Director", 
+    desc: "Run a city-level sub-chapter and mentor others.", 
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`, 
+    badge: "30+ hrs/wk" 
+  }
+];
+
+function openWizard(defaultRole) {
+  wizModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  wizNavBtns.style.display = 'flex';
+  
+  // Reset all steps and inputs
+  currentStep = 1;
+  wizardRole = null;
+  document.getElementById('roleCardVolunteer').classList.remove('selected');
+  document.getElementById('roleCardDonor').classList.remove('selected');
+  document.querySelectorAll('input[name="wizInterests"]').forEach(cb => cb.checked = false);
+  document.getElementById('wizName').value = '';
+  document.getElementById('wizEmail').value = '';
+  document.getElementById('wizPhone').value = '';
+  document.getElementById('wizMessage').value = '';
+  impactSlider.value = 3;
+
+  if (defaultRole === 'volunteer') {
+    selectRole('volunteer', false);
+    currentStep = 2;
+  } else if (defaultRole === 'donor') {
+    selectRole('donor', false);
+    currentStep = 2;
+  }
+  
+  updateWizUI();
+  calculateWizardImpact();
+  
+  gsap.fromTo(wizModal, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 });
+  gsap.fromTo(wizModalWrapper, 
+    { scale: 0.85, y: 50, opacity: 0 }, 
+    { scale: 1, y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.5)', clearProps: 'transform' }
+  );
+}
+
+function closeWizard() {
+  gsap.to(wizModalWrapper, {
+    scale: 0.85,
+    y: 50,
+    opacity: 0,
+    duration: 0.3,
+    ease: 'power2.in',
+    onComplete: () => {
+      wizModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+  gsap.to(wizModal, { autoAlpha: 0, duration: 0.3 });
+}
+
+function selectRole(role, autoAdvance = true) {
+  wizardRole = role;
+  const vCard = document.getElementById('roleCardVolunteer');
+  const dCard = document.getElementById('roleCardDonor');
+  
+  if (role === 'volunteer') {
+    vCard.classList.add('selected');
+    dCard.classList.remove('selected');
+  } else {
+    dCard.classList.add('selected');
+    vCard.classList.remove('selected');
+  }
+  
+  calculateWizardImpact();
+  
+  if (autoAdvance) {
+    setTimeout(() => {
+      wizNextStep();
+    }, 300);
+  }
+}
+
+function calculateWizardImpact() {
+  const level = parseInt(impactSlider.value) - 1;
+  const titleEl = document.getElementById('impactTitle');
+  const descEl = document.getElementById('impactDesc');
+  const iconEl = document.getElementById('impactVisualIcon');
+  const badgeEl = document.getElementById('impactCostBadge');
+  
+  let data = donorImpacts[level];
+  if (wizardRole === 'volunteer') {
+    data = volunteerImpacts[level];
+  }
+  
+  titleEl.textContent = data.title;
+  descEl.textContent = data.desc;
+  iconEl.innerHTML = data.icon;
+  badgeEl.textContent = data.badge;
+  
+  // Slick icon pop animation
+  gsap.fromTo(iconEl, { scale: 0.8, rotate: -10 }, { scale: 1, rotate: 0, duration: 0.4, ease: 'back.out(2)' });
+}
+
+function updateInterestCards() {
+  // Styles handled by CSS checkboxes, no JS styling needed
+}
+
+function wizNextStep() {
+  if (currentStep === 1 && !wizardRole) {
+    // Highlight roles to show error
+    gsap.fromTo('.role-grid', { x: -10 }, { x: 0, duration: 0.4, ease: 'elastic.out(1, 0.3)' });
+    return;
+  }
+  
+  if (currentStep === 4) {
+    const nameVal = document.getElementById('wizName').value.trim();
+    const emailVal = document.getElementById('wizEmail').value.trim();
+    const phoneVal = document.getElementById('wizPhone').value.trim();
+    
+    if (!nameVal || !emailVal || !phoneVal) {
+      // Highlight invalid inputs
+      gsap.fromTo('.wizard-form-grid', { x: -10 }, { x: 0, duration: 0.4, ease: 'elastic.out(1, 0.3)' });
+      return;
+    }
+    
+    // Submit contribution
+    currentStep = 5;
+    updateWizUI();
+    triggerConfetti();
+    return;
+  }
+  
+  currentStep++;
+  updateWizUI();
+}
+
+function wizPrevStep() {
+  if (currentStep > 1) {
+    currentStep--;
+    updateWizUI();
+  }
+}
+
+function updateWizUI() {
+  // Hide all panes
+  document.querySelectorAll('.wizard-step-pane').forEach(pane => pane.classList.remove('active'));
+  
+  // Show active pane
+  if (currentStep === 5) {
+    document.getElementById('wizardSuccessStep').classList.add('active');
+    wizNavBtns.style.display = 'none';
+  } else {
+    document.getElementById(`wizardStep${currentStep}`).classList.add('active');
+  }
+  
+  // Update stepper progress nodes
+  document.querySelectorAll('.step-node').forEach(node => {
+    const s = parseInt(node.getAttribute('data-step'));
+    node.classList.remove('active', 'completed');
+    if (s === currentStep) {
+      node.classList.add('active');
+    } else if (s < currentStep) {
+      node.classList.add('completed');
+    }
+  });
+  
+  // Fill progress bar width
+  const progressMap = { 1: 0, 2: 33, 3: 66, 4: 100, 5: 100 };
+  wizProgressFill.style.width = `${progressMap[currentStep]}%`;
+  
+  // Back button visibility
+  if (currentStep === 1 || currentStep === 5) {
+    wizBackBtn.style.visibility = 'hidden';
+  } else {
+    wizBackBtn.style.visibility = 'visible';
+  }
+  
+  // Next button text
+  if (currentStep === 4) {
+    wizNextBtn.innerHTML = `Submit Journey &nbsp;✓`;
+    validateWizStep4();
+  } else {
+    wizNextBtn.innerHTML = `Next <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px; vertical-align: middle; transition: transform 0.3s;" class="btn-arrow"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+    wizNextBtn.removeAttribute('disabled');
+    wizNextBtn.style.opacity = '1';
+    wizNextBtn.style.cursor = 'pointer';
+  }
+}
+
+function validateWizStep4() {
+  const nameEl = document.getElementById('wizName');
+  const emailEl = document.getElementById('wizEmail');
+  const phoneEl = document.getElementById('wizPhone');
+  
+  const nameVal = nameEl.value.trim();
+  const emailVal = emailEl.value.trim();
+  const phoneVal = phoneEl.value.trim();
+  
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^\+?[\d\s\-]{10,15}$/;
+  
+  const isNameValid = nameVal.length >= 2;
+  const isEmailValid = emailRegex.test(emailVal);
+  const isPhoneValid = phoneRegex.test(phoneVal) && phoneVal.replace(/[^0-9]/g, '').length >= 10;
+  
+  updateInputIndicator(nameEl, isNameValid);
+  updateInputIndicator(emailEl, isEmailValid);
+  updateInputIndicator(phoneEl, isPhoneValid);
+  
+  const submitBtn = document.getElementById('wizNextBtn');
+  if (isNameValid && isEmailValid && isPhoneValid) {
+    submitBtn.removeAttribute('disabled');
+    submitBtn.style.opacity = '1';
+    submitBtn.style.cursor = 'pointer';
+  } else {
+    if (currentStep === 4) {
+      submitBtn.setAttribute('disabled', 'true');
+      submitBtn.style.opacity = '0.5';
+      submitBtn.style.cursor = 'not-allowed';
+    }
+  }
+}
+
+function updateInputIndicator(inputEl, isValid) {
+  const wrapper = inputEl.closest('.input-wrapper');
+  if (!wrapper) return;
+  const indicator = wrapper.querySelector('.validation-indicator');
+  if (!indicator) return;
+  
+  if (inputEl.value.trim() === '') {
+    indicator.innerHTML = '';
+    indicator.className = 'validation-indicator';
+    inputEl.style.borderColor = 'rgba(0,0,0,.1)';
+    return;
+  }
+  
+  if (isValid) {
+    indicator.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+    indicator.className = 'validation-indicator valid';
+    inputEl.style.borderColor = 'var(--g)';
+  } else {
+    indicator.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+    indicator.className = 'validation-indicator invalid';
+    inputEl.style.borderColor = '#ef4444';
+  }
+}
+
+function triggerConfetti() {
+  const successPane = document.getElementById('wizardSuccessStep');
+  for (let i = 0; i < 40; i++) {
+    const conf = document.createElement('div');
+    conf.style.position = 'absolute';
+    const colors = ['#16a34a', '#22c55e', '#4ade80', '#fb923c', '#f97316', '#fefce8'];
+    const size = Math.random() * 8 + 4;
+    conf.style.width = `${size}px`;
+    conf.style.height = `${size}px`;
+    conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    conf.style.left = `${Math.random() * 100}%`;
+    conf.style.top = `-10px`;
+    conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    conf.style.opacity = Math.random() * 0.7 + 0.3;
+    conf.style.pointerEvents = 'none';
+    conf.style.zIndex = '999';
+    successPane.appendChild(conf);
+    
+    // Animate falling down with GSAP
+    gsap.to(conf, {
+      y: 260 + Math.random() * 80,
+      x: (Math.random() - 0.5) * 100,
+      rotation: Math.random() * 360,
+      duration: 1.5 + Math.random() * 1.5,
+      ease: 'power1.out',
+      onComplete: () => conf.remove()
+    });
+  }
+}
+
+// Bind closing triggers
+closeWizBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  closeWizard();
+});
+
+wizModal.addEventListener('click', (e) => {
+  if (e.target === wizModal) {
+    closeWizard();
+  }
+});
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && wizModal.classList.contains('active')) {
+    closeWizard();
+  }
+});
+
+function sponsorCampaign(category, sliderLevel) {
+  openWizard('donor');
+  currentStep = 3;
+  document.querySelectorAll('input[name="wizInterests"]').forEach(cb => {
+    cb.checked = (cb.value === category);
+  });
+  impactSlider.value = sliderLevel;
+  updateWizUI();
+  calculateWizardImpact();
+}
+</script>
+</body>
+</html>
